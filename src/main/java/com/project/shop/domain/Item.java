@@ -1,10 +1,12 @@
 package com.project.shop.domain;
 
 import jakarta.persistence.*;
+import lombok.ToString;
 import org.springframework.stereotype.Controller;
 
 
 @Entity
+@ToString
 public class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) //auto increment
@@ -13,6 +15,10 @@ public class Item {
     private String title;
     private Integer price;
 
+    // lombok의 @ToString으로 지원
+//    public String toString(){
+//        return this.title + this.price;
+//    }
 
     public String getTitle() {
         return title;
