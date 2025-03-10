@@ -13,6 +13,7 @@ public class Item {
     private Long id;
     @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private Integer price;
 
     // lombok의 @ToString으로 지원
@@ -35,6 +36,17 @@ public class Item {
     public void setPrice(Integer price) {
         this.price = price;
     }
+
+    public void setPrice(String price) {
+        Integer p;
+        try {
+            p = Integer.valueOf(price);
+        } catch (NumberFormatException e) {
+            return;
+        }
+        this.price = p;
+    }
+
 
     public Long getId() {
         return id;
