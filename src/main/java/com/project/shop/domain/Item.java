@@ -37,14 +37,15 @@ public class Item {
         this.price = price;
     }
 
-    public void setPrice(String price) {
+    public boolean setPrice(String price) {
         Integer p;
         try {
             p = Integer.valueOf(price);
         } catch (NumberFormatException e) {
-            return;
+            return false;
         }
         this.price = p;
+        return true;
     }
 
 

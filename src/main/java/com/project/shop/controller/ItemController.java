@@ -46,9 +46,12 @@ public class ItemController {
         String price = formData.get("price");
 
         Item item = new Item();
-        item.setPrice(price);
+        if (!item.setPrice(price)) {
+            return "redirect:/items/item-list";
+        }
         item.setTitle(title);
+        itemRepository.save(item);
 
-        return "redirect:/items/item-list";
+        return "redirect:/items/list";
     }
 }
