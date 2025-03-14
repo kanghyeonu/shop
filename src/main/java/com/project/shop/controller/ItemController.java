@@ -8,11 +8,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Controller
@@ -53,5 +55,16 @@ public class ItemController {
         itemRepository.save(item);
 
         return "redirect:/items/list";
+    }
+
+    @GetMapping("items/detail/{id}")
+    String showDetail(@PathVariable Integer id, Model model){
+        Optional<Item> result = itemRepository.findById(id.longValue());
+        if (result.isPresent()){
+            model.addAttribute("item", result.get());
+        } else{
+            return "error";
+        }
+        return "items/detail-items.html";
     }
 }
