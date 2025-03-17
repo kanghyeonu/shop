@@ -47,23 +47,22 @@ public class ItemController {
         String title = formData.get("title");
         String price = formData.get("price");
 
-        Item item = new Item();
-        if (!item.setPrice(price)) {
-            return "redirect:/items/item-list";
+        try{
+            Item item = new Item(title, price);
+            itemRepository.save(item);
+        } catch (IllegalArgumentException e){
+            System.out.println("유효하지 않은 상품 정보");
+            return "redirect:/items/list";
         }
-        item.setTitle(title);
-        itemRepository.save(item);
 
         return "redirect:/items/list";
     }
 
     @GetMapping("items/detail/{id}")
-    String showDetail(@PathVariable Integer id, Model model){
-        Optional<Item> result = itemRepository.findById(id.longValue());
+    String showDetail(@PathVariable Long id, Model model){
+        Optional<Item> result = itemRepository.findById(id);
         if (result.isPresent()){
             model.addAttribute("item", result.get());
-        } else{
-            return "error";
         }
         return "items/detail-items.html";
     }

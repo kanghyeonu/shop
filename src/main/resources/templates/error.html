@@ -9,15 +9,13 @@
     <link href="/main.css" rel="stylesheet">
 </head>
 <body>
+    <div th:replace="~{ util/nav.html::navbar }"></div>
 
-<div th:replace="~{ util/nav.html::navbar }"></div>
-
-<form action="/items/new" method="POST">
-    <input name="title" placeholder="상품 이름을 입력하세요">
-    <input name="price" placeholder="상품 가격을 입력하세요">
-    <button type="submit">전송</button>
-</form>
-
-
+    <h2>error page</h2>
+    <p th:text="${status}"></p>
+    <p th:text="${error}"></p>
+    <p th:text="${path}"></p>
+    <p th:text="${message}"></p>
+    <p th:text="${exception}"></p>
 </body>
 </html>
