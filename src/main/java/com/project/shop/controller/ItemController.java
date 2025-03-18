@@ -60,10 +60,14 @@ public class ItemController {
 
     @GetMapping("items/detail/{id}")
     String showDetail(@PathVariable Long id, Model model){
-        Optional<Item> result = itemRepository.findById(id);
-        if (result.isPresent()){
-            model.addAttribute("item", result.get());
+        try{
+            Optional<Item> result = itemRepository.findById(id);
+            if (result.isPresent()){
+                model.addAttribute("item", result.get());
+            }
+            return "items/detail-items.html";
+        } catch (Exception e){
+            return "redirect:/items/item-list.html";
         }
-        return "items/detail-items.html";
     }
 }
