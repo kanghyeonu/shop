@@ -4,6 +4,7 @@ import com.project.shop.domain.Item;
 import com.project.shop.domain.Notice;
 import com.project.shop.repository.ItemRepository;
 import com.project.shop.repository.NoticeRepository;
+import com.project.shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
 //    Lombok 쓰면 필요없음
 //    @Autowired
@@ -43,31 +45,21 @@ public class ItemController {
     }
 
     @PostMapping("/items/new")
-    String addItems(@RequestParam Map<String, String> formData){
-        String title = formData.get("title");
-        String price = formData.get("price");
-
-        try{
-            Item item = new Item(title, price);
-            itemRepository.save(item);
-        } catch (IllegalArgumentException e){
-            System.out.println("유효하지 않은 상품 정보");
-            return "redirect:/items/list";
-        }
-
+    String addItems(@RequestParam Map<String, String> form){
+        Item item = new Item(form.get("title"), form.get("price"));
+        itemService.saveItem(item);
         return "redirect:/items/list";
     }
 
     @GetMapping("items/detail/{id}")
     String showDetail(@PathVariable Long id, Model model){
-        try{
-            Optional<Item> result = itemRepository.findById(id);
-            if (result.isPresent()){
-                model.addAttribute("item", result.get());
-            }
+        Optional<Item> result = itemService.getItem(id);
+        if (result.isPresent()){
+            model.addAttribute("item", result.get());
             return "items/detail-items.html";
-        } catch (Exception e){
-            return "redirect:/items/item-list.html";
+        }
+        else{
+            return "redirect:/items/list";
         }
     }
 }

@@ -24,22 +24,17 @@ public class Item {
     public Item(){}
 
     public Item(String title, String price){
-        if (!isValidTitle(title)) {
-            throw new IllegalArgumentException("잘못된 제목: 제목은 비어 있을 수 없습니다.");
+        if (title == null || title.isEmpty()) {
+            throw new IllegalArgumentException("잘못된 상품명: 상품명은 비어 있을 수 없습니다.");
         }
-        if (!isValidPrice(price)) {
+        if (!isNumeric(price)) {
             throw new IllegalArgumentException("잘못된 가격: 가격은 유효한 숫자여야 합니다.");
         }
         this.title = title;
         this.price = Integer.parseInt(price);
-
     }
 
-    private boolean isValidTitle(String title){
-        return title != null && !title.trim().isEmpty();
-    }
-
-    private boolean isValidPrice(String price){
+    private boolean isNumeric(String price){
         try {
             Integer.parseInt(price);
             return true;
@@ -63,14 +58,6 @@ public class Item {
     public void setPrice(Integer price) {
         this.price = price;
     }
-
-    public void setPrice(String price) {
-        if (!isValidPrice(price)){
-            throw new IllegalArgumentException("잘못된 가격: 가격은 유효한 숫자여야 합니다.");
-        }
-        this.price = Integer.parseInt(price);
-    }
-
 
     public Long getId() {
         return id;
