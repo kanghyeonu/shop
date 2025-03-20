@@ -9,15 +9,13 @@
     <link href="/main.css" rel="stylesheet">
 </head>
 <body>
-
     <div th:replace="~{ util/nav.html::navbar }"></div>
 
-    <form action="/items/new" method="POST">
-        <input name="title" placeholder="상품 이름을 입력하세요">
-        <input name="price" placeholder="상품 가격을 입력하세요">
-        <button type="submit">전송</button>
+    <form action="/items/update" method="POST">
+        <input type="hidden" name="id" th:value="${item.id}">
+        <input name="title" th:placeholder="${item.title}">
+        <input name="price" th:placeholder="${item.price}">
+        <button type="submit">수정</button>
     </form>
 
-
 </body>
-</html>

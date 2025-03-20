@@ -8,10 +8,7 @@ import com.project.shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -36,11 +33,11 @@ public class ItemController {
         List<Item> result = itemRepository.findAll();
         //System.out.println(result.toString());
         model.addAttribute("items", result);
-        return "items/item-list.html";
+        return "items/list-items.html";
     }
 
     @GetMapping("/items/new")
-    String createItemsForm(Model model){
+    String createItemsForm(){
         return "items/new-items.html";
     }
 
@@ -61,5 +58,23 @@ public class ItemController {
         else{
             return "redirect:/items/list";
         }
+    }
+
+    @GetMapping("/items/update/{id}")
+    String updateItemForm(@PathVariable Long id, Model model){
+        Optional<Item> result = itemService.getItem(id);
+        if (result.isPresent()){
+            model.addAttribute("item", result.get());
+            return "items/update-item.html";
+        }
+        else{
+            return "redirect:/items/list";
+        }
+    }
+
+    @PostMapping("/items/update")
+    String updateItem(@RequestParam Long id, @RequestParam String title, @RequestParam String price){
+        itemService.updateItem(id, title, price);
+        return "redirect:/items/list";
     }
 }

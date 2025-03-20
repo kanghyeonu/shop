@@ -44,15 +44,25 @@ public class Item {
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {
+        if (title == null || title.isEmpty()) {
+            throw new IllegalArgumentException("잘못된 상품명: 상품명은 비어 있을 수 없습니다.");
+        }
         this.title = title;
     }
 
     public Integer getPrice() {
-        return price;
+        return this.price;
+    }
+
+    public void setPrice(String price){
+        if (!isNumeric(price)) {
+            throw new IllegalArgumentException("잘못된 가격: 가격은 유효한 숫자여야 합니다.");
+        }
+        this.price = Integer.parseInt(price);
     }
 
     public void setPrice(Integer price) {

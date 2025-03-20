@@ -35,7 +35,17 @@ public class ItemService {
         }
     }
 
-
+    public void updateItem(Long id, String title, String price){
+        Optional<Item> item = getItem(id);
+        if (item.isPresent()){
+            Item exsitingItem = item.get();
+            exsitingItem.setTitle(title);
+            exsitingItem.setPrice(price);
+            saveItem(exsitingItem);
+        } else{
+            throw new IllegalArgumentException("잘못된 상품 정보");
+        }
+    }
     public Optional<Item> getItem(Long id){
         return itemRepository.findById(id);
     }
