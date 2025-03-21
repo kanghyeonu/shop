@@ -13,8 +13,8 @@
 
     <form action="/items/update" method="POST">
         <input type="hidden" name="id" th:value="${item.id}">
-        <input name="title" th:placeholder="${item.title}">
-        <input name="price" th:placeholder="${item.price}">
+        <input name="title" th:value="${item.title}">
+        <input name="price" th:value="${item.price}">
         <button type="submit">수정</button>
     </form>
 
