@@ -14,16 +14,23 @@
 
 <div class="card" th:each="item : ${items}">
   <div>
+    <img src="https://placehold.co/300">
     <a th:href="@{'/items/detail/' + ${item.id}}">
-      <img src="https://placehold.co/300">
       <h4 th:text="${item.title}">바지</h4>
-      <h4 th:text="${item.price}">바지</h4>
+      <h4 th:text="${item.price}">100억</h4>
     </a>
-    <a th:href="@{'/items/update/' + ${item.id}}">
-      <p>✏️</p>
-    </a>
+    <a th:href="@{'/items/update/' + ${item.id}}">✏️</a>
+    <span th:onclick="deleteItem([[${item.id}]])">🗑️</span>
+    <script >
+      function deleteItem(itemId) {
+        const url = '/items?id=' + itemId;
+        fetch(url, { method: 'DELETE' });
+      }
+    </script>
+
   </div>
 </div>
+
 
 </body>
 </html>

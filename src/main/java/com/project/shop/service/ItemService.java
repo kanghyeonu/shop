@@ -2,6 +2,7 @@ package com.project.shop.service;
 
 import com.project.shop.domain.Item;
 import com.project.shop.repository.ItemRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,5 +53,13 @@ public class ItemService {
 
     public List<Item> getAllItem(){
         return itemRepository.findAll();
+    }
+
+    public void deleteItem(Long id){
+        if (getItem(id).isPresent()){
+            itemRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("이미 삭제되거나 존재하지 않는 상품입니다.");
+        }
     }
 }

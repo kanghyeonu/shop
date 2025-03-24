@@ -77,4 +77,10 @@ public class ItemController {
         itemService.updateItem(id, title, price);
         return "redirect:/items/list";
     }
+
+    @DeleteMapping("/items")
+    String deleteItem(@RequestParam Long id){
+        itemService.deleteItem(id);
+        return "redirect:/items/list";
+    }
 }
