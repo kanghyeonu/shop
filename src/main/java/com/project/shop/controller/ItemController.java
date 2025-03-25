@@ -6,6 +6,7 @@ import com.project.shop.repository.ItemRepository;
 import com.project.shop.repository.NoticeRepository;
 import com.project.shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -79,8 +80,8 @@ public class ItemController {
     }
 
     @DeleteMapping("/items")
-    String deleteItem(@RequestParam Long id){
+    ResponseEntity<String> deleteItem(@RequestParam Long id){
         itemService.deleteItem(id);
-        return "redirect:/items/list";
+        return ResponseEntity.status(200).body("");
     }
 }
