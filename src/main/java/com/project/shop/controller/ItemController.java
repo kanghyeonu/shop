@@ -19,8 +19,6 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class ItemController {
-
-    private final ItemRepository itemRepository;
     private final ItemService itemService;
 
 //    Lombok 쓰면 필요없음
@@ -31,7 +29,7 @@ public class ItemController {
 
     @GetMapping("/items/list")
     String getItemList(Model model){
-        List<Item> result = itemRepository.findAll();
+        List<Item> result = itemService.getAllItem();
         //System.out.println(result.toString());
         model.addAttribute("items", result);
         return "items/list-items.html";
