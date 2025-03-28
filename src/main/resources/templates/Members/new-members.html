@@ -16,13 +16,19 @@
     <input name="username" placeholder="사용할 아이디를 입력하세요">
     <input name="password" placeholder="사용할 비밀번호를 입력하세요">
     <input name="confirm_password" placeholder="비밀번호를 재입력하세요">
-    <input name="nickname" placeholder="닉네임을 입력하세요">
+    <input name="displayName" placeholder="닉네임을 입력하세요">
     <button type="button" th:onclick="isValid()">가입</button>
     <script >
         function isValid() {
             const form = document.getElementById('signupForm');
+            const username = form.username.value;
             const password = form.password.value;
             const confirmPassword = form.confirm_password.value;
+
+            if (!username || username.trim().length === 0){
+                alert("올바르지 않은 사용자 아이디입니다");
+                return;
+            }
 
             // 비밀번호 일치 여부 확인
             if (password !== confirmPassword) {

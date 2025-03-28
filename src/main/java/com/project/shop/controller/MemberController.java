@@ -26,13 +26,10 @@ public class MemberController {
     @PostMapping("/members/new")
     String signup(@ModelAttribute MemberForm form){
         Member member = new Member();
-
-        System.out.println(form.getNickname());
-        System.out.println(form.getUsername());
-        //BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        //System.out.println(encoder.encode(form.getPassword()));
-
-        //MemberService.join(item);
+        member.setUsername(form.getUsername());
+        member.setPassword(form.getPassword());
+        member.setDisplayName(form.getDisplayName());
+        memberService.join(member);
         return "redirect:/items/list";
     }
 }
