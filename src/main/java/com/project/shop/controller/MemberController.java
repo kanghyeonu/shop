@@ -32,4 +32,10 @@ public class MemberController {
         memberService.join(member);
         return "redirect:/items/list";
     }
+
+    @GetMapping("/login")
+    String login() {
+        return "/members/login.html";
+    }
+
 }

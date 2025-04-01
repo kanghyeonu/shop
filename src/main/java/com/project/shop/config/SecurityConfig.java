@@ -24,7 +24,15 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/**").permitAll() // permitAll 모든 유저의 접속을 허락
         );
+
+        http.formLogin((formLogin) ->
+                        formLogin.loginPage("/login")
+                .defaultSuccessUrl("/items/list")
+                //.failureUrl("/fail")
+        );
+
         return http.build();
+
     }
 }
 
