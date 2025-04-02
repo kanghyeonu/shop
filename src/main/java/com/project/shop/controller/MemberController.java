@@ -3,6 +3,7 @@ package com.project.shop.controller;
 import com.project.shop.domain.Member;
 import com.project.shop.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,4 +39,11 @@ public class MemberController {
         return "/members/login.html";
     }
 
+    @GetMapping("/my-page")
+    String myPage(Authentication auth) {
+        if (auth.isAuthenticated()){
+
+        }
+        return "/members/my-page.html";
+    }
 }

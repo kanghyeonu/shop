@@ -18,6 +18,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // 세션 방식 로그인 기능
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.disable()); // 세션방식 csrf 공격을 허용(개발 중에는 번거롭기때문)
@@ -27,12 +28,14 @@ public class SecurityConfig {
 
         http.formLogin((formLogin) ->
                         formLogin.loginPage("/login")
-                .defaultSuccessUrl("/items/list")
-                //.failureUrl("/fail")
+                .defaultSuccessUrl("/my-page")
+                //.failureUrl("/login?error=true")
+        );
+        http.logout(logout -> logout.logoutUrl("/logout")
+                .logoutSuccessUrl("/items/list")
         );
 
         return http.build();
-
     }
 }
 

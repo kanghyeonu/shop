@@ -7,6 +7,8 @@ import com.project.shop.repository.NoticeRepository;
 import com.project.shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +42,11 @@ public class ItemController {
         return "items/new-items.html";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/items/new")
-    String addItems(@RequestParam Map<String, String> form){
+    String addItems(@RequestParam Map<String, String> form, Authentication auth){
         Item item = new Item(form.get("title"), form.get("price"));
+        item.setUsername(auth.getName());
         itemService.saveItem(item);
         return "redirect:/items/list";
     }

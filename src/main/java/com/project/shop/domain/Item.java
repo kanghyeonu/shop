@@ -16,6 +16,16 @@ public class Item {
     private String title;
     @Column(nullable = false)
     private Integer price;
+    @Column
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     // lombok의 @ToString으로 지원
 //    public String toString(){
