@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,5 +40,4 @@ public class MyUserDetailsService implements UserDetailsService {
         return new User(user.getUsername(), user.getPassword(), authorities); // User(id, 비밀번호, 권한)
 
     }
-
 }

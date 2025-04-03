@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -18,10 +20,19 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
+        return repository;
+    }
     // 세션 방식 로그인 기능
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf((csrf) -> csrf.disable()); // 세션방식 csrf 공격을 허용(개발 중에는 번거롭기때문)
+        http.csrf((csrf) -> csrf.disable()); // csrf 끄기
+//        http.csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository())
+//                .ignoringRequestMatchers("/login") // 보안을 끌 페이지 설정 안하는게 좋음
+//        );
         http.authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/**").permitAll() // permitAll 모든 유저의 접속을 허락
         );
