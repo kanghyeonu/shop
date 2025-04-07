@@ -48,3 +48,19 @@ input {
   display : block;
   margin : auto;
 }
+
+.my-ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+
+.my-li {
+    margin: 5px; /* 여백 설정 */
+}
+
+.new-row {
+    flex-basis: 100%; /* 새로운 행 시작 시 전체 너비 사용 */
+}

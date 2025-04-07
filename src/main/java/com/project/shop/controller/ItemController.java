@@ -6,6 +6,7 @@ import com.project.shop.repository.ItemRepository;
 import com.project.shop.repository.NoticeRepository;
 import com.project.shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,20 @@ public class ItemController {
         List<Item> result = itemService.getAllItem();
         //System.out.println(result.toString());
         model.addAttribute("items", result);
+        return "items/list-items.html";
+    }
+
+    @GetMapping("/items/list/{page}")
+    String getItemPage(@PathVariable Integer page, Model model){
+        Page<Item> result = null;
+        if (page < 0){
+            result = itemService.getItemPage(0);
+        } else{
+            result = itemService.getItemPage(page-1);
+        }
+        model.addAttribute("items", result);
+        model.addAttribute("totalPages", result.getTotalPages());
+        //model.addAttribute("requestPage", page);
         return "items/list-items.html";
     }
 

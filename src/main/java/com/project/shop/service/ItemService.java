@@ -4,6 +4,8 @@ import com.project.shop.domain.Item;
 import com.project.shop.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,6 +48,9 @@ public class ItemService {
         } else{
             throw new IllegalArgumentException("잘못된 상품 정보");
         }
+    }
+    public Page<Item> getItemPage(int page){
+        return itemRepository.findPageBy(PageRequest.of(page, 5));
     }
     public Optional<Item> getItem(Long id){
         return itemRepository.findById(id);
