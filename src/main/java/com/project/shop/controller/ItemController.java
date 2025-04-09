@@ -5,6 +5,7 @@ import com.project.shop.domain.Notice;
 import com.project.shop.repository.ItemRepository;
 import com.project.shop.repository.NoticeRepository;
 import com.project.shop.service.ItemService;
+import com.project.shop.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
+    private final S3Service s3Service;
 
 //    Lombok 쓰면 필요없음
 //    @Autowired
@@ -31,11 +33,11 @@ public class ItemController {
 //    }
 
     @GetMapping("/items/list")
-    String getItemList(Model model){
-        List<Item> result = itemService.getAllItem();
+    String getItemList(){
+        //List<Item> result = itemService.getAllItem();
         //System.out.println(result.toString());
-        model.addAttribute("items", result);
-        return "items/list-items.html";
+        //model.addAttribute("items", result);
+        return "redirect:/items/list/1";
     }
 
     @GetMapping("/items/list/{page}")
@@ -100,5 +102,13 @@ public class ItemController {
     ResponseEntity<String> deleteItem(@RequestParam Long id){
         itemService.deleteItem(id);
         return ResponseEntity.status(200).body("");
+    }
+
+    @GetMapping("/presigned-url")
+    @ResponseBody
+    String getURL(@RequestParam String filename){
+        String result = s3Service.createPresignedUrl("test/" + filename);
+        System.out.println(result);
+        return result;
     }
 }

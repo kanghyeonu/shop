@@ -18,7 +18,7 @@ public class Item {
     private Integer price;
     @Column
     private String username;
-
+    // img url도 이제 넣기 가능
     public String getUsername() {
         return username;
     }
