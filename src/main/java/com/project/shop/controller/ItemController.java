@@ -1,10 +1,13 @@
 package com.project.shop.controller;
 
+import com.project.shop.domain.Comment;
 import com.project.shop.domain.Item;
 import com.project.shop.domain.Notice;
 import com.project.shop.repository.ItemRepository;
 import com.project.shop.repository.NoticeRepository;
+import com.project.shop.service.CommentService;
 import com.project.shop.service.ItemService;
+import com.project.shop.service.MemberService;
 import com.project.shop.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +28,8 @@ import java.util.Optional;
 public class ItemController {
     private final ItemService itemService;
     private final S3Service s3Service;
+    private final MemberService memberService;
+    private final CommentService commentService;
 
 //    Lombok 쓰면 필요없음
 //    @Autowired
@@ -69,10 +74,17 @@ public class ItemController {
     }
 
     @GetMapping("items/detail/{id}")
-    String showDetail(@PathVariable Long id, Model model){
+    String showDetail(@PathVariable Long id, Model model, Authentication auth){
         Optional<Item> result = itemService.getItem(id);
         if (result.isPresent()){
             model.addAttribute("item", result.get());
+            List<Comment> comments = commentService.getAllItemComments(id);
+            if (!comments.isEmpty()){
+                model.addAttribute("comments", comments);
+            }
+            if (auth != null){
+                model.addAttribute("username", auth.getName());
+            }
             return "items/detail-items.html";
         }
         else{

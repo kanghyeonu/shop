@@ -16,8 +16,96 @@
     <h4>상세페이지</h4>
     <img src="https://placehold.co/300">
     <h4 th:text="'상품명: '+ ${item.title}"></h4>
-    <h4 th:text="'상품 가격: '+ ${item.price}"></h4>
+    <h4 th:text="'상품 가격: '+ ${item.price} + '원'"></h4>
     <p th:text="${item.title} + ' 상품의 상세 페이지 입니다.'"></p>
+
+
+    <div sec:authorize="isAuthenticated()">
+        <button id="addCommentButton">댓글 쓰기</button>
+        <div id="commentInputContainer"></div>
+        <script th:inline="javascript">
+            let input = null; // 입력 박스를 관리할 변수 초기화
+            let writeButton = null; // <쓰></쓰>기 버튼을 관리할 변수 초기화
+            const username = [[${username}]];
+            const itemId = [[${item.id}]];
+
+            document.getElementById("addCommentButton").addEventListener("click", function() {
+                const inputContainer = document.getElementById("commentInputContainer");
+                const button = document.getElementById("addCommentButton");
+
+                if (input) {
+                    // 입력 박스가 존재하면 제거
+                    inputContainer.removeChild(input);
+                    if (writeButton) {
+                        inputContainer.removeChild(writeButton); // 쓰기 버튼 제거
+                    }
+                    input = null; // 입력 박스 변수 초기화
+                    writeButton = null; // 쓰기 버튼 변수 초기화
+                    button.textContent = "댓글 쓰기"; // 버튼 텍스트 변경
+                } else {
+                    // 입력 박스가 존재하지 않으면 새로 생성
+                    input = document.createElement("input");
+                    input.type = "text";
+                    input.id = "commentBox";
+                    input.placeholder = "여기에 입력하세요";
+                    inputContainer.appendChild(input);
+
+                    // 쓰기 버튼 생성
+                    writeButton = document.createElement("button");
+                    writeButton.textContent = "쓰기";
+                    writeButton.addEventListener("click", function() {
+                        handleCommentSubmission(input.value, username, itemId);
+                    });
+
+                    inputContainer.appendChild(writeButton); // 쓰기 버튼 추가
+                    button.textContent = "쓰기 취소"; // 버튼 텍스트 변경
+                }
+            });
+
+             function handleCommentSubmission(commentText, userName, itemId) {
+                console.log({
+                    comment: commentText,
+                    username: userName,
+                    parentId: itemId
+                });
+                // 입력 글자 수 확인
+                if (commentText.length > 100) {
+                    alert("입력 글자는 100자를 넘을 수 없습니다."); // 경고 메시지
+                } else {
+                    // AJAX 요청으로 데이터 전송
+                    fetch('/comment/new', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            comment: commentText,
+                            username: userName,
+                            parentId: itemId
+                        }),
+                    })
+                    .then(response => {
+                        if(!response.ok){
+                            alert("잠시 후 다시 시도해주세요")
+                        } else{
+                            location.reload();
+                        }
+                    })
+
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                }
+            }
+        </script>
+    </div>
+
+    <h4 style="text-align: left;">댓글 및 후기</h4>
+    <ul style="list-style-type: disc; padding-left: 20px;">
+        <li th:each="comment : ${comments}" style="text-align: left; margin: 0;">
+            <p th:text="${comment.username} + ': ' + ${comment.comment}" style="margin: 0;"></p>
+        </li>
+    </ul>
 </div>
 
 <div th:if="${item == null}" class="detail" >

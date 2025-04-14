@@ -27,10 +27,6 @@ public class Item {
         this.username = username;
     }
 
-    // lombok의 @ToString으로 지원
-//    public String toString(){
-//        return this.title + this.price;
-//    }
     public Item(){}
 
     public Item(String title, String price){
