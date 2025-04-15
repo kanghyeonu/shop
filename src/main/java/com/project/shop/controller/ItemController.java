@@ -123,4 +123,10 @@ public class ItemController {
         System.out.println(result);
         return result;
     }
+
+    @PostMapping("/items/search")
+    String searchItem(){
+        System.out.println("검색");
+        return "redirect:/items/list";
+    }
 }

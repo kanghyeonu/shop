@@ -48,11 +48,13 @@
                     input.type = "text";
                     input.id = "commentBox";
                     input.placeholder = "여기에 입력하세요";
+                    input.style.display = "inline-block";
                     inputContainer.appendChild(input);
 
                     // 쓰기 버튼 생성
                     writeButton = document.createElement("button");
                     writeButton.textContent = "쓰기";
+                    writeButton.style.display = "inline-block"; // 인라인으로 표시
                     writeButton.addEventListener("click", function() {
                         handleCommentSubmission(input.value, username, itemId);
                     });
@@ -69,7 +71,9 @@
                     parentId: itemId
                 });
                 // 입력 글자 수 확인
-                if (commentText.length > 100) {
+                if (commentText.length == 0){
+                    alert("내용을 입력하십시오"); // 경고 메시지
+                } else if (commentText.length > 100) {
                     alert("입력 글자는 100자를 넘을 수 없습니다."); // 경고 메시지
                 } else {
                     // AJAX 요청으로 데이터 전송
