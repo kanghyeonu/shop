@@ -96,5 +96,5 @@ input {
 #commentBox {
     margin: 5px; /* 입력 박스 간 여백 */
     padding: 8px; /* 입력 박스 패딩 */
-    width: 100%; /* 부모 요소의 너비에 맞춤 */
+    width: 80%; /* 부모 요소의 너비에 맞춤 */
 }

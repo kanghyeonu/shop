@@ -48,13 +48,11 @@
                     input.type = "text";
                     input.id = "commentBox";
                     input.placeholder = "여기에 입력하세요";
-                    input.style.display = "inline-block";
                     inputContainer.appendChild(input);
 
                     // 쓰기 버튼 생성
                     writeButton = document.createElement("button");
                     writeButton.textContent = "쓰기";
-                    writeButton.style.display = "inline-block"; // 인라인으로 표시
                     writeButton.addEventListener("click", function() {
                         handleCommentSubmission(input.value, username, itemId);
                     });

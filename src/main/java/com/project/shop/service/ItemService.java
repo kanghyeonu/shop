@@ -66,4 +66,8 @@ public class ItemService {
             throw new EntityNotFoundException("이미 삭제되거나 존재하지 않는 상품입니다.");
         }
     }
+
+    public Page<Item> searchItem(String keyword, int page){
+        return itemRepository.findAllByTitleContains(keyword, PageRequest.of(page, 5));
+    }
 }

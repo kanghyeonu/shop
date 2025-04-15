@@ -11,5 +11,7 @@ import java.util.Optional;
 // 데이터 접근을 위한 클래스 = repository
 // CRUD 설계 및 구현
 public interface ItemRepository extends JpaRepository <Item, Long>{
-    Page<Item> findPageBy(Pageable page);
+    Page<Item> findPageBy(Pageable pageable);
+    Page<Item> findAllByTitleContains(String keyword, Pageable pageable); // index 안씀
+
 }

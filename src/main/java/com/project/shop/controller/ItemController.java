@@ -124,9 +124,11 @@ public class ItemController {
         return result;
     }
 
-    @PostMapping("/items/search")
-    String searchItem(){
-        System.out.println("검색");
-        return "redirect:/items/list";
+    @GetMapping("/items/search")
+    String searchItem(@RequestParam String searchText, Model model){
+        Page<Item> result = itemService.searchItem(searchText, 0);
+        model.addAttribute("items", result.isEmpty() ? null : result);
+        model.addAttribute("totalPages", result.getTotalPages());
+        return "items/search-items";
     }
 }

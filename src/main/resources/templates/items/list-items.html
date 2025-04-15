@@ -12,12 +12,16 @@
 
 <div th:replace="~{ util/nav.html::navbar }"></div>
 
-<form action="/items/search" method="POST">
-  <input name="searchText" style="display:inline">
+<form action="/items/search" method="GET">
+  <input name="searchText" placeholder="상품 이름 검색" style="display:inline">
   <button type="submit">검색</button>
 </form>
 
-<div class="card" th:each="item : ${items}">
+<div th:if="${items == null}">
+  <h4>검색하신 상품은 없는 상품입니다.</h4>
+</div>
+
+<div th:if="${items != null}" class="card" th:each="item : ${items}">
   <div>
     <img src="https://placehold.co/300">
     <a th:href="@{'/items/detail/' + ${item.id}}">
@@ -45,7 +49,7 @@
   </div>
 </div>
 
-<div class="pagination">
+<div th:if="${items != null}" class="pagination">
   <ul class="my-ul">
     <li class="my-li" th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
       <a th:href="@{'/items/list/' + ${i+1}}"><span th:text="${i + 1}">1</span> </a>
