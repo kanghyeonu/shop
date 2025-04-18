@@ -19,7 +19,47 @@
     <h4 th:text="'상품 가격: '+ ${item.price} + '원'"></h4>
     <p th:text="${item.title} + ' 상품의 상세 페이지 입니다.'"></p>
 
+    <div sec:authorize="isAuthenticated()">
+        <form id="purchaseForm">
+            <input name="count" placeholder="구매 수량" style="display:inline">
+            <button type="button" onclick="isValid(event)">구매</button>
+        </form>
+        <script th:inline="javascript">
+            function isValid(event) {
+                const form = document.getElementById('purchaseForm');
+                const countValue = form.count.value;
+                if (!countValue || isNaN(countValue) || Number(countValue) <= 0) {
+                    event.preventDefault(); // 폼 제출 막기
+                    alert('0 이상의 숫자를 입력하세요');
+                    return;
+                }
 
+                const itemId = [[${item.id}]];
+                const username = [[${username}]];
+
+                const data = {
+                    username: username,
+                    itemId: itemId,
+                    count: Number(countValue)
+                };
+
+                fetch('/items/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('서버 응답 오류');
+                    return response.json();
+                })
+                .then(result => {
+                    alert('구매 완료')
+                })
+            }
+        </script>
+    </div>
     <div sec:authorize="isAuthenticated()">
         <button id="addCommentButton">댓글 쓰기</button>
         <div id="commentInputContainer"></div>
@@ -63,11 +103,6 @@
             });
 
              function handleCommentSubmission(commentText, userName, itemId) {
-                console.log({
-                    comment: commentText,
-                    username: userName,
-                    parentId: itemId
-                });
                 // 입력 글자 수 확인
                 if (commentText.length == 0){
                     alert("내용을 입력하십시오"); // 경고 메시지

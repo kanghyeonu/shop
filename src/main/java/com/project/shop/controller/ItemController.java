@@ -1,15 +1,11 @@
 package com.project.shop.controller;
 
-import com.project.shop.domain.Comment;
-import com.project.shop.domain.Item;
-import com.project.shop.domain.Notice;
+import com.project.shop.domain.*;
 import com.project.shop.repository.ItemRepository;
 import com.project.shop.repository.NoticeRepository;
-import com.project.shop.service.CommentService;
-import com.project.shop.service.ItemService;
-import com.project.shop.service.MemberService;
-import com.project.shop.service.S3Service;
+import com.project.shop.service.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,6 +27,7 @@ public class ItemController {
     private final S3Service s3Service;
     private final MemberService memberService;
     private final CommentService commentService;
+    private final SalesService salesService;
 
 //    Lombok 쓰면 필요없음
 //    @Autowired
@@ -130,5 +128,16 @@ public class ItemController {
         model.addAttribute("items", result.isEmpty() ? null : result);
         model.addAttribute("totalPages", result.getTotalPages());
         return "items/search-items";
+    }
+
+    @PostMapping("/items/orders")
+    ResponseEntity<String> orderItem(@RequestBody SalesDto salesDto){
+        Sales sales = new Sales(salesDto);
+        System.out.println(sales.getItemId());
+        System.out.println(sales.getUsername());
+        System.out.println(sales.getCount());
+        salesService.save(sales);
+
+        return ResponseEntity.status(200).body("구매 완료");
     }
 }
