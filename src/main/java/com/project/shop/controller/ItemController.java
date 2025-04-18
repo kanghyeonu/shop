@@ -130,14 +130,5 @@ public class ItemController {
         return "items/search-items";
     }
 
-    @PostMapping("/items/orders")
-    ResponseEntity<String> orderItem(@RequestBody SalesDto salesDto){
-        Sales sales = new Sales(salesDto);
-        System.out.println(sales.getItemId());
-        System.out.println(sales.getUsername());
-        System.out.println(sales.getCount());
-        salesService.save(sales);
 
-        return ResponseEntity.status(200).body("구매 완료");
-    }
 }

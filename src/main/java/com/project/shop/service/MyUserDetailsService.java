@@ -1,5 +1,6 @@
 package com.project.shop.service;
 
+import com.project.shop.domain.CustomMember;
 import com.project.shop.domain.Member;
 import com.project.shop.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,8 @@ public class MyUserDetailsService implements UserDetailsService {
         Member user = result.get();
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-        return new User(user.getUsername(), user.getPassword(), authorities); // User(id, 비밀번호, 권한)
-
+        CustomMember member = new CustomMember(user.getUsername(), user.getPassword(), authorities);
+        member.setId(memberRepository.findByUsername(member.getUsername()).get().getId());
+        return member; // User(id, 비밀번호, 권한) -> id 추가
     }
 }

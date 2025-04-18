@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -69,4 +71,11 @@ public class MemberService {
                 });
     }
 
+    public Long getUserIdByUsername(String username){
+        return memberRepository.findByUsername(username).get().getId();
+    }
+
+    public Optional<Member> getUser(Long id){
+        return memberRepository.findById(id);
+    }
 }
