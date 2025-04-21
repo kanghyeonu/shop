@@ -22,6 +22,6 @@ public class SalesService {
     }
 
     public List<Sales> findAll(){
-        return salesRepository.findAll();
+        return salesRepository.customFindAll();
     }
 }

@@ -27,8 +27,8 @@ public class SalesController {
 
     @PostMapping("/order")
     ResponseEntity<String> orderItem(@RequestBody SalesDto salesDto, Authentication auth){
-        CustomMember user = (CustomMember) auth.getPrincipal();
-        Optional<Member> member = memberService.getUser(user.getId());
+        CustomMember user = (CustomMember) auth.getPrincipal(); // myUserDetailService에서 오버라이딩으로 user id 값 세팅
+        Optional<Member> member = memberService.findUserById(user.getId());
         Sales sales = new Sales(salesDto.getCount(), salesDto.getItemId(), member.get());
         salesService.save(sales);
         return ResponseEntity.status(200).body("구매 완료");
@@ -39,6 +39,7 @@ public class SalesController {
     String getOrderAll(Model model){
         List<Sales> result = salesService.findAll();
         System.out.println(result.get(0));
+        // 결과를 SalesDto에 result의 값들을 Dto에 맞게 세팅 후 반환
 
         //model.addAttribute("orders", result);
         return "/items/list-items";

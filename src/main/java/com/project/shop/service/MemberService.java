@@ -75,7 +75,7 @@ public class MemberService {
         return memberRepository.findByUsername(username).get().getId();
     }
 
-    public Optional<Member> getUser(Long id){
+    public Optional<Member> findUserById(Long id){
         return memberRepository.findById(id);
     }
 }

@@ -26,6 +26,9 @@ public class MyUserDetailsService implements UserDetailsService {
         this.memberRepository = memberRepository;
     }
 
+    /** 사용자가 로그인 시도 하면 Spring Security가 UserDetailService를 구현한 클래스(지금 클래스)에서
+     * loadUserByUsername을 호출 -> 현재 내가 오버라이딩으로 구현한 부분
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        DB에서 username을 가진 유저를 찾아와서
