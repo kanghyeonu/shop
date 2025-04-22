@@ -20,7 +20,7 @@ public class Sales {
     private Long id;
     private Long itemId;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "user_id",
             foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)

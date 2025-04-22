@@ -24,6 +24,7 @@ import java.util.Optional;
 public class SalesController {
     private final SalesService salesService;
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @PostMapping("/order")
     ResponseEntity<String> orderItem(@RequestBody SalesDto salesDto, Authentication auth){
@@ -37,9 +38,12 @@ public class SalesController {
 
     @GetMapping("/order/all")
     String getOrderAll(Model model){
-        List<Sales> result = salesService.findAll();
-        System.out.println(result.get(0));
+        //List<Sales> result = salesService.findAll();
         // 결과를 SalesDto에 result의 값들을 Dto에 맞게 세팅 후 반환
+
+        //Test
+        var result = memberRepository.findById(1l);
+        System.out.println(result.get().getSales());
 
         //model.addAttribute("orders", result);
         return "/items/list-items";
