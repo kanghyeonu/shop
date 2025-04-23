@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,7 +30,12 @@ public class SecurityConfig {
     // 세션 방식 로그인 기능
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf((csrf) -> csrf.disable()); // csrf 끄기
+        //http.csrf((csrf) -> csrf.disable()); // csrf 끄기
+
+        //JWT login -> 세션 데이터 생성 방지
+        http.sessionManagement((session) -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        );
 
         // <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         // csrf를 킨다면 form에 위의 코드를 삽입해줘서 서버가 발급한 token 정보도 서버에게 전달 해야함
@@ -42,11 +48,12 @@ public class SecurityConfig {
                 authorize.requestMatchers("/**").permitAll() // permitAll 모든 유저의 접속을 허락
         );
 
-        http.formLogin((formLogin) ->
-                        formLogin.loginPage("/login")
-                .defaultSuccessUrl("/my-page")
-                //.failureUrl("/login?error=true")
-        );
+        // session login
+//        http.formLogin((formLogin) ->
+//                        formLogin.loginPage("/login")
+//                .defaultSuccessUrl("/my-page")
+//                //.failureUrl("/login?error=true")
+//        );
         http.logout(logout -> logout.logoutUrl("/logout")
                 .logoutSuccessUrl("/items/list")
         );

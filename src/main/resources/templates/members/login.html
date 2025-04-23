@@ -18,16 +18,33 @@
     <h4>잘못된 아이디나 비밀번호입니다.</h4>
 </div>
 
-<form action="/login" method="POST">
-    <input name="username">
-    <input name="password" type="password">
+<!--<form action="/login" method="POST">-->
+<!--    <input name="username">-->
+<!--    <input name="password" type="password">-->
+<!--    <button type="submit" style="display:inline">로그인</button>-->
+<!--</form>-->
+
+<form>
+    <input name="username", id="username">
+    <input name="password" type="password", id="password">
     <button type="submit" style="display:inline">로그인</button>
 </form>
+<button onclick="loginJWT()"> 전송 </button>
+<script>
+    function loginJWT(){
+      fetch('/login/jwt', {
+        method : 'POST',
+        headers : {'Content-Type': 'application/json'},
+        body : JSON.stringify({
+          username : document.querySelector('#username').value,
+          password : document.querySelector('#password').value
+        })
+      }).then(r => r.text()).then((r)=>{ console.log(r) })
+    }
+</script>
 
 <form action="/members/new" method="GET">
         <button>회원가입</button>
 </form>
-
-
 </body>
 </html>
