@@ -54,7 +54,7 @@ public class MemberController {
 
     @PostMapping("/login/jwt")
     @ResponseBody
-    String login(@RequestBody Map<String, String> data, HttpServletResponse response){
+    String loginJWT(@RequestBody Map<String, String> data, HttpServletResponse response){
         System.out.println("JWT 로그인");
         var authToken = new UsernamePasswordAuthenticationToken(
                 data.get("username"), data.get("password")
@@ -78,6 +78,6 @@ public class MemberController {
     @GetMapping("/my-page/jwt")
     @ResponseBody
     String mypageJWT(){
-
+        return "";
     }
 }

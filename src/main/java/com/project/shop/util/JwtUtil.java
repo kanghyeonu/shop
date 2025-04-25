@@ -18,7 +18,7 @@ public class JwtUtil {
     // applications 프로퍼티에 빼는게 좋을 듯
     static final SecretKey key =
             Keys.hmacShaKeyFor(Decoders.BASE64.decode(
-                    "jwtpassword123jwtpassword123jwtpassword123jwtpassword123jwtpassword"
+                    "asdfesdhadry3423tsddskrfjnasdjasklfhebfdhbfaesbfjashebfgash31wefshae565"
             ));
 
     // JWT 만들어주는 함수

@@ -30,7 +30,7 @@ public class SecurityConfig {
     // 세션 방식 로그인 기능
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        //http.csrf((csrf) -> csrf.disable()); // csrf 끄기
+        http.csrf((csrf) -> csrf.disable()); // csrf 끄기
 
         //JWT login -> 세션 데이터 생성 방지
         http.sessionManagement((session) -> session
@@ -47,10 +47,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/**").permitAll() // permitAll 모든 유저의 접속을 허락
         );
-
-        // session login
-//        http.formLogin((formLogin) ->
-//                        formLogin.loginPage("/login")
+//        //session login
+//        http.formLogin((formLogin) -> formLogin.loginPage("/login")
 //                .defaultSuccessUrl("/my-page")
 //                //.failureUrl("/login?error=true")
 //        );

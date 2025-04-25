@@ -14,9 +14,9 @@
 
 <h4> Let's Login </h4>
 
-<div th:if="${param.error}">
-    <h4>잘못된 아이디나 비밀번호입니다.</h4>
-</div>
+<!--<div th:if="${param.error}">-->
+<!--    <h4>잘못된 아이디나 비밀번호입니다.</h4>-->
+<!--</div>-->
 
 <!--<form action="/login" method="POST">-->
 <!--    <input name="username">-->
@@ -25,10 +25,11 @@
 <!--</form>-->
 
 <form>
-    <input name="username", id="username">
-    <input name="password" type="password", id="password">
+    <input name="username" id="username">
+    <input name="password" type="password" id="password">
 </form>
 <button onclick="loginJWT()"> JWT로그인 </button>
+
 <script>
     function loginJWT(){
       fetch('/login/jwt', {
