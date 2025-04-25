@@ -1,6 +1,7 @@
 package com.project.shop.config;
 
 
+import com.project.shop.util.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
@@ -36,6 +38,8 @@ public class SecurityConfig {
         http.sessionManagement((session) -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
+
+        http.addFilterBefore(new JwtFilter(), ExceptionTranslationFilter.class);
 
         // <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         // csrf를 킨다면 form에 위의 코드를 삽입해줘서 서버가 발급한 token 정보도 서버에게 전달 해야함

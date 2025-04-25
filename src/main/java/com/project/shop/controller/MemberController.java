@@ -1,10 +1,12 @@
 package com.project.shop.controller;
 
+import com.project.shop.domain.CustomMember;
 import com.project.shop.domain.Member;
 import com.project.shop.service.MemberService;
 import com.project.shop.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,7 +57,6 @@ public class MemberController {
     @PostMapping("/login/jwt")
     @ResponseBody
     String loginJWT(@RequestBody Map<String, String> data, HttpServletResponse response){
-        System.out.println("JWT 로그인");
         var authToken = new UsernamePasswordAuthenticationToken(
                 data.get("username"), data.get("password")
         );
@@ -64,7 +65,6 @@ public class MemberController {
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         var jwt = JwtUtil.createToken(SecurityContextHolder.getContext().getAuthentication());
-        System.out.println(jwt);
 
         var cookie = new Cookie("jwt", jwt);
         cookie.setMaxAge(10); // 쿠키 유효기간, jwt랑 비슷하게 해주면 될듯
@@ -77,7 +77,12 @@ public class MemberController {
 
     @GetMapping("/my-page/jwt")
     @ResponseBody
-    String mypageJWT(){
+    String mypageJWT(Authentication auth){
+
+        var user = (CustomMember) auth.getPrincipal();
+        System.out.println(user);
+        System.out.println(user.getAuthorities());
+
         return "";
     }
 }
